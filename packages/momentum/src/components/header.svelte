@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
-
-<header class="header-container">
+<section class="header-section">
+	<header class="header-container">
 	Momentum
 	<div class="button-container">
 		<button class="button-design">თანამშრომლის შექმნა</button>
@@ -9,17 +9,20 @@
 			><img src="../lib../assets" alt="A" />შექმენი ახალი დავალება</button
 		>
 	</div>
-</header>
+	</header>
+</section>
+
 
 <style>
+	.header-section{
+		margin-inline: 40px;
+	}
 	.header-container {
 		display: flex;
-		padding-left: 40px;
 		margin-top: 20px;
 	}
 	.button-design {
 		width: 200px;
-		margin-right: 20px;
 		border-radius: 5px;
 		border-color: purple;
 		height: 30px;
@@ -28,6 +31,7 @@
 		}
 	}
 	.button-container {
+		display: flex;
 		width: fit-content;
 		margin-left: auto;
 		gap: 20px;
