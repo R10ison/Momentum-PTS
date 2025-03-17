@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Card from "./card.svelte"
 </script>
 <section class = "page-section">
 	<h1>დავალებების გვერდი</h1>
@@ -49,25 +50,29 @@
 		<div>
 			<div class = "task-status task-to-start">დასაწყები</div>
 			<div class = "task-item-wrapper">
-				<div class = "task-item"> test</div>
+				<Card/>
+				<Card/>
+				<Card/>
+				<Card/>
+
 			</div>
 		</div>
 		<div>
 			<div class = "task-status task-in-progress">პროგრესში</div>
 			<div class = "task-item-wrapper">
-				<div class = "task-item"> test</div>
+				<Card/>
 			</div>
 		</div>
 		<div>
 			<div class = "task-status task-ready-for-testing">მზად ტესტირებისთვის</div>
 			<div class = "task-item-wrapper">
-				<div class = "task-item"> test</div>
+				<Card/>
 			</div>
 		</div>
 		<div>
 			<div class = "task-status task-finished">დასრულებული</div>
 			<div class = "task-item-wrapper">
-				<div class = "task-item"> test</div>
+				<Card/>
 			</div>
 		</div>	
 	</div>
@@ -154,9 +159,10 @@
 		font-size:xx-large
 	}
 	.task-status-wrapper{
+		display: flex;
 		margin-top: 60px;
 		display: flex;
-		gap: 40px;
+		gap: 20px;
 	}
 	.task-status{
 		color: white;
@@ -164,8 +170,8 @@
 		justify-content: center;
 		align-items: center;
 		border-radius: 10px;
-		font-size: large;
-		width: 300px;
+		font-size: larger;
+		width: 542px;
 		height: 40px;
 		margin-bottom: 20px;
 		&.task-to-start{
@@ -182,14 +188,10 @@
 		}
 	}
 	.task-item-wrapper{
-		max-height: 600px;
-		overflow-x: auto;
-		white-space: nowrap;
 		gap: 10px;
 		display: flex;
-	}
-	.task-item{
-		background-color: red;
-		height: 10000px;
+		flex-direction: column;
+		overflow-y: hidden;
+		max-height: 800px;
 	}
 </style>
