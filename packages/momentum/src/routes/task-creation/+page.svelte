@@ -4,55 +4,61 @@
 <Header></Header>
 <section class="page-section">
     <h1>შექმენი ახალი დავალება</h1>
-    <div class="task-main-container">
-        <div class="task-creation-container">
-            <div class="task-form-container">
-                <label for="title">სათაური*</label>
-                <input class="task-form" type="text" id="title" />
+    <div class = "task-creation-main-container">
+        <div class = "task-creation-seperation-containers">
+            <div class ="task-button-and-label-container">
+                <label for = "title">სათაური*</label>
+                <input class = "task-form" type="text" id="title"/>
             </div>
-            <div class="task-form-container">
-                <label class="dropdown-button" for="department">დეპარტამენტი*</label>
-                <select class="task-form" id="department">
-                    <option value="" disabled selected hidden></option>
-                    <option value="marketing">მარკეტინგის დეპარტამენტი</option>
-                    <option value="design">დიზაინის დეპარტამენტი</option>
-                    <option value="logistics">ლოჯისტიკის დეპარტამენტი</option>
-                    <option value="it">IT დეპარტამენტი</option>
-                </select>
+            <div class ="task-button-and-label-container">
+                <label for = "description">აღწერა</label>
+                <input class = "task-form task-description" type="text" id="description"/>
             </div>
+            <div class="task-creation-double-button-container">
+                <div class="task-button-and-label-container">
+                    <label for ="priority">პრიორიტეტი*</label>
+                    <select class = "task-form task-double-button" id="priority">
+                        <option value="" disabled selected hidden></option>
+                        <option>დაბალი</option>
+                        <option>საშუალო</option>
+                        <option>მაღალი</option>
+                    </select>
+                </div>
+                <div class="task-button-and-label-container">
+                    <label for="status">სტატუსი</label>
+                    <select class = "task-form task-double-button" id="status">
+                        <option value="" disabled selected hidden></option>
+                        <option>დასაწყები</option>
+                        <option>პროგრესში</option>
+                        <option>მზად ტესტირებისთვის</option>
+                        <option>დასრულებული</option>
+                    </select>
+                </div>
+            </div>
+            
+        
         </div>
-        <div class="task-creation-container">
-            <div class="task-form-container">
-                <label for="description">აღწერა</label>
-                <input class="task-form task-description-form" type="text" id="description" />
+        <div class="task-creation-seperation-containers">
+            <div class="task-button-and-label-container">
+                <label for ="department">დეპარტამენტი*</label>
+                    <select class = "task-form" id="department">
+                        <option value="" disabled selected hidden></option>
+                        <option>მარკეტინგის დეპარტამენტი</option>
+                        <option>დიზაინის დეპარტამენტი</option>
+                        <option>ლოჯისტიკის დეპარტამენტი</option>
+                        <option>IT დეპარტამენტი</option>
+                    </select>
             </div>
-            <div class="task-form-container">
-                <label class="dropdown-button" for="responsible-employee">პასუხისმგებელი თანამშრომელი</label>
-                <select class="task-form" id="responsible-employee">
-                    <option disabled selected hidden></option>
-                    <!-- For each member in the API, generate more options -->
-                </select>
+            <div class="task-button-and-label-container">
+                 <label for ="responsible-employee">პასუხისმგებელი თანამშრომელი</label>
+                    <select class = "task-form" id="responsible-employee">
+                        <option value="" disabled selected hidden></option>
+                        <!--for each worker filtered by the above selected department generate options-->
+                    </select>
             </div>
-        </div>
-        <div class="task-creation-container">
-             <div class="task-form-container">
-                <label class="dropdown-button" for="responsible-employee">პრიორიტეტი*</label>
-                <select class="task-form task-smaller-forms" id="responsible-employee">
-                    <option disabled selected hidden></option>
-                    <option>დაბალი</option>
-                    <option>საშუალო</option>
-                    <option>მაღალი</option>
-                </select>
-            </div>
-             <div class="task-form-container">
-                <label class="dropdown-button" for="responsible-employee">სტატუსი*</label>
-                <select class="task-form task-smaller-forms" id="responsible-employee">
-                    <option disabled selected hidden></option>
-                </select>
-            </div>
-             <div class="task-form-container">
-                <label class="dropdown-button" for="responsible-employee">დედლაინი</label>
-                <input class="task-form task-smaller-forms" type="date" />
+                <div class="task-button-and-label-container task-deadline">
+                <label for="deadline">დედლაინი</label>
+                <input class = "task-form task-double-button" type="date" id="deadline">
             </div>
         </div>
     </div>
@@ -61,35 +67,42 @@
     .page-section{
         margin-inline: 40px;
     }
-    .task-main-container{
+    .task-creation-main-container{
         display: flex;
-        flex-direction: column;
-    }
-    .task-creation-container {
-        display: flex;
-        flex-direction: row; 
         padding: 40px;
-        gap: 150px;
+        flex-wrap: wrap;
+        gap: 10%;
     }
-
-    .task-form-container {
+    .task-creation-seperation-containers{
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+    .task-creation-double-button-container{
+        display: flex;
+        gap: 40px;
+    }
+    .task-button-and-label-container{
         display: flex;
         flex-direction: column;
     }
-
-    .task-form {
-        width: 800px; 
-        height: 50px; 
-        padding: 10px; 
-        font-size: 16px; 
-        border: 1px solid #ccc; 
-        border-radius: 5px; 
+    .task-form{
+        width: 600px;
+        max-width: 100%;
+        height: 50px;
+        border-radius: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.199);
+        padding: 10px;
         box-sizing: border-box;
-        &.task-description-form{
-            height: 200px;
+        &.task-description{
+            min-height: 150px;
+            resize: vertical;
         }
-        &.task-smaller-forms{
-            width: 300px;
+        &.task-double-button{
+            width: 250px;
         }
+    }
+    .task-deadline{
+        margin-top: auto;
     }
 </style>
