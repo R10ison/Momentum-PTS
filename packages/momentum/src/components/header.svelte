@@ -5,11 +5,12 @@
 		popoverVisibility = !popoverVisibility;
 	}
 
-	function handleClickOutside(event: MouseEvent) {
-		const popover = document.getElementById("popover-content");
-		if (popover && !popover.contains(event.target as Node)) {
-			popoverVisibility = false;
-		}
+	import { goto } from '$app/navigation';
+
+	function goToTaskCreation() {
+		goto('/task-creation').then(() => {
+			location.reload();
+		});
 	}
 </script>
 <section class="header-section">
@@ -17,8 +18,8 @@
 	Momentum
 		<div class="button-container">
 			<button class="button-design" on:click={togglePopoverVisibility}>თანამშრომლის შექმნა</button>
-			<button class="button-design purple-button"><img src="../lib../assets" alt="A" />შექმენი ახალი დავალება
-		</button>
+			<button class="button-design purple-button" on:click={goToTaskCreation}><img src="../lib../assets" alt="A" />შექმენი ახალი დავალება
+			</button>
 		</div>
 		{#if popoverVisibility}
 		<div id="popover-content" class = "popover-container">
@@ -58,7 +59,10 @@
 		margin-top: 20px;
 	}
 	.button-design {
-		width: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 250px;
 		border-radius: 5px;
 		border-color: purple;
 		height: 30px;
@@ -68,7 +72,6 @@
 	}
 	.button-container {
 		display: flex;
-		width: fit-content;
 		margin-left: auto;
 		gap: 20px;
 		.purple-button {

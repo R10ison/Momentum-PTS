@@ -8,7 +8,9 @@
 	<nav class="dropdown-button-container">
 	<li class="dropdown-parent">
 		<input type="checkbox" id="departmentCheckbox" class="dropdown-checkbox" />
-		<label class="dropdown-button" for="departmentCheckbox"> დეპარტამენტი </label>
+		<label class="dropdown-button" for="departmentCheckbox"> დეპარტამენტი 
+			<span class="dropdown-arrow"></span>
+		</label>
 		<div class="dropdown-content">
 			<div>
 				<div class = "dropdown-content-parent">
