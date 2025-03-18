@@ -1,7 +1,15 @@
 <script lang="ts">
-	let popoverVisibility:boolean = false
-	function togglePopoverVisibility(){
-		popoverVisibility = !popoverVisibility
+	let popoverVisibility: boolean = false;
+
+	function togglePopoverVisibility() {
+		popoverVisibility = !popoverVisibility;
+	}
+
+	function handleClickOutside(event: MouseEvent) {
+		const popover = document.getElementById("popover-content");
+		if (popover && !popover.contains(event.target as Node)) {
+			popoverVisibility = false;
+		}
 	}
 </script>
 <section class="header-section">

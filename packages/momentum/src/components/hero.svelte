@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from "./card.svelte"
 </script>
-<section class = "page-section">
+<div class = "test"></div><section class = "page-section">
 	<h1>დავალებების გვერდი</h1>
 </section>
 <section class = "page-section">
@@ -36,12 +36,51 @@
 	<li class="dropdown-parent">
 		<input type="checkbox" id="priorityCheckbox" class="dropdown-checkbox" />
 		<label class="dropdown-button" for="priorityCheckbox"> პრიორიტეტი </label>
-		<div class="dropdown-content"></div>
+		<div class="dropdown-content">
+			<div>
+				<div class = "dropdown-content-parent">
+					<input type="checkbox" id="" class="dropdown-content-checkbox" />
+					<p>დაბალი</p>
+				</div>
+				<div class = "dropdown-content-parent">
+					<input type="checkbox" id="" class="dropdown-content-checkbox" />
+					<p>საშუალო</p>
+				</div>
+				<div class = "dropdown-content-parent">
+					<input type="checkbox" id="" class="dropdown-content-checkbox" />
+					<p>მაღალი</p>
+				</div>
+			</div>
+			<div class = "dropdown-button-wrapper">
+				<button class = "dropdown-content-button">არჩევა</button>
+			</div>
+		</div>
 	</li>
 	<li class="dropdown-parent">
 		<input type="checkbox" id="staffCheckbox" class="dropdown-checkbox" />
 		<label class="dropdown-button" for="staffCheckbox"> თანამშრომელი </label>
-		<div class="dropdown-content"></div>
+		<div class="dropdown-content">
+			<div>
+				<div class = "dropdown-content-parent">
+					<input type="checkbox" id="" class="dropdown-content-checkbox" />
+					<img alt = "worker picture"/>
+					<p>worker 1</p>
+				</div>
+				<div class = "dropdown-content-parent">
+					<input type="checkbox" id="" class="dropdown-content-checkbox" />
+					<img alt = "worker picture"/>
+					<p>worker 2</p>
+				</div>
+				<div class = "dropdown-content-parent">
+					<input type="checkbox" id="" class="dropdown-content-checkbox" />
+					<img alt = "worker picture"/>
+					<p>worker 3</p>
+				</div>
+			</div>
+			<div class = "dropdown-button-wrapper">
+				<button class = "dropdown-content-button">არჩევა</button>
+			</div>
+		</div>
 	</li>
 	</nav>
 </section>
@@ -132,8 +171,7 @@
 		display: flex;
 		flex-direction: row;
 		gap: 20px;
-	}
-	.dropdown-content-checkbox{
+		align-items: center;
 	}
 	.dropdown-content-button{
 		height: 30px;
