@@ -1,14 +1,17 @@
 <script lang="ts">
-	import Card from "./card.svelte"
-	import { goto } from '$app/navigation';
+    import Card from "./card.svelte";
+	import { fetchTasks, type Task } from "../stores/tasksstore";
 
-	function goToCardInfo() {
-		goto('/card-info').then(() => {
-			location.reload();
-		});
-	}
+    const apiKey: string = import.meta.env.VITE_API_KEY;
+    const ROOT_URL: string = "https://momentum.redberryinternship.ge/api";
+    
+    $:tasks = fetchTasks();
+    let statuses = new Set();
+//for each card return card with status matching the container divs status div text
+
+
 </script>
-<div class = "test"></div><section class = "page-section">
+<section class = "page-section">
 	<h1>დავალებების გვერდი</h1>
 </section>
 <section class = "page-section">
@@ -94,38 +97,26 @@
 	</nav>
 </section>
 <section class ="page-section">
-	<div class = "task-status-wrapper">
-		<div>
-			<div class = "task-status task-to-start">დასაწყები</div>
-			<div class = "task-item-wrapper">
-				<button on:click={goToCardInfo}>
-					<Card/>
-				</button>
-				<Card/>
-				<Card/>
-				<Card/>
-
+	<div class="task-status-wrapper">
+		{#await tasks}
+			<p>...waiting</p>
+		{:then resolved_list}
+		{#each ["Todo", "პროგრესში", "მზად ტესტირებისთვის", "დასრულებული"] as status}
+			{#each resolved_list as task}
+			{#if task.status.name === status}
+			<div>
+				<div class="task-status">{status}</div>
+				<div class="task-item-wrapper">
+						<Card {task} />
+				</div>
 			</div>
+			{/if}
+			{/each}
+		{/each}
+		{:catch error}
+			<p style="color: red">{error.message}</p>
+		{/await}
 		</div>
-		<div>
-			<div class = "task-status task-in-progress">პროგრესში</div>
-			<div class = "task-item-wrapper">
-				<Card/>
-			</div>
-		</div>
-		<div>
-			<div class = "task-status task-ready-for-testing">მზად ტესტირებისთვის</div>
-			<div class = "task-item-wrapper">
-				<Card/>
-			</div>
-		</div>
-		<div>
-			<div class = "task-status task-finished">დასრულებული</div>
-			<div class = "task-item-wrapper">
-				<Card/>
-			</div>
-		</div>	
-	</div>
 </section>
 
 <style>

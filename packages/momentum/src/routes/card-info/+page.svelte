@@ -2,6 +2,7 @@
     import Header from "../../components/header.svelte";
 </script>
 <Header/>
+<div class="card-and-comment-main-wrapper">
 <div class="cardinfo-main-wrapper">
     <div class="cardinfo-button-wrapper">
         <div class="card-status">საშუალო</div>
@@ -28,27 +29,30 @@
         </div>
     </div>
     </div>
-<div class="comment-section">
-    <div class="comment-input-field">
-        <input class="comment-input" placeholder="დაწერე კომენტარი">
-        <button class="comment-button">დააკომენტარე</button>
-    </div>
-    <div class = "comment-amount-wrapper">
-        <h2>კომენტარები</h2>
-        <p class="comment-amount">3</p>
-    </div>
+    <div class="comment-section-wrapper">
+        <div class="comment-section">
+            <div class="comment-input-field">
+                <input class="comment-input" placeholder="დაწერე კომენტარი">
+                <button class="comment-button">დააკომენტარე</button>
+            </div>
+            <div class = "comment-amount-wrapper">
+                <h2>კომენტარები</h2>
+                <p class="comment-amount">3</p>
+            </div>
 
-</div>
-<div class="comment-user-wrapper">
-    <img alt="profilepic">
-    <div class="comment-info">
-        <p class="comment-username">სახელი</p>
-        <p>კომენტარის ტექსტი</p>
-        <div class="comment-reply-wrapper">
-            <img alt="arrow">
-            <p>უპასყხე</p>
         </div>
-    </div>
+        <div class="comment-user-wrapper">
+            <img alt="profilepic">
+            <div class="comment-info">
+                <p class="comment-username">სახელი</p>
+                <p>კომენტარის ტექსტი</p>
+                <div class="comment-reply-wrapper">
+                    <img alt="arrow">
+                    <p>უპასყხე</p>
+                </div>
+            </div>
+        </div>
+</div>
 </div>
 <style>
     .cardinfo-main-wrapper{
@@ -83,7 +87,7 @@
         padding: 20px;
         height: 100px;
         border-radius: 10px;
-        border: 1px solid;
+        border: 1px solid gray;
         width: 600px;
     }
     .comment-input{
@@ -134,5 +138,16 @@
         align-items: center;
         gap: 2px;
         color: purple;
+    }
+    .card-and-comment-main-wrapper{
+        display: flex;
+        gap: 30px;
+        margin-inline: 40px;
+    }
+    .comment-section-wrapper{
+        margin-top: 80px;
+        border: 1px solid gray;
+        padding: 40px;
+        border-radius: 15px;
     }
 </style>

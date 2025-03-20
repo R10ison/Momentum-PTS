@@ -1,23 +1,32 @@
-<script></script>
+<script lang="ts">
+    import { goto } from '$app/navigation';
+	import type { Task } from "../stores/tasksstore";
 
-<div class = "card-wrapper">
-    <div class = "card-info-wrapper">
-        <div class ="card-importance">საშუალო</div>
-        <div class ="card-department">დიზაინი</div>
-        <div class="card-date">თარიღი</div>
-    </div>
-    <div class = "card-text-wrapper">
-        <h2> Redberry-ს საიტის ლენდინგის დიზაინი</h2>
-        <p>შექმენი საიტის მთავარი გვერდი, რომელიც მოიცავს მთავარ სექციებს, ნავიგაციას.</p>
-    </div>
-    <div class="card-footer-wrapper">
-        <img src="../lib../assets" alt="employee picture" />
-        <div class = "task-comment">
-            <img src="../lib../assets" alt="comment picture" />
-            <p>comment number</p>
+    export let task:Task
+    function goToCardInfo() {
+	    goto('/card-info').then(() => {
+		location.reload();
+	});
+	}
+</script>
+    <button class = "card-wrapper" on:click={goToCardInfo}>
+        <div class = "card-info-wrapper">
+            <div class ="card-importance">{task.priority.name}</div>
+            <div class ="card-department">{task.department.name}</div>
+            <div class="card-date">{task.due_date}</div>
         </div>
-    </div>
-</div>
+        <div class = "card-text-wrapper">
+            <h2> {task.name}</h2>
+            <p>{task.description}</p>
+        </div>
+        <div class="card-footer-wrapper">
+            <img src={task.employee.avatar} alt="employee picture" />
+            <div class = "task-comment">
+                <img src="../lib../assets" alt="comment picture" />
+                <p>comment number</p>
+            </div>
+        </div>
+    </button>
 
 <style>
     .card-wrapper{
@@ -25,9 +34,14 @@
         border-radius: 8px;
         display: flex;
         flex-direction: column;
-        width: 500px;
+        width: fit-content;
         padding: 20px;
+        background-color: white;
+        &:hover{
+            cursor: pointer;
+        }
     }
+
     .card-info-wrapper{
         display: flex;
         gap: 20px;
