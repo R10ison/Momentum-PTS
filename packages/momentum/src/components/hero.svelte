@@ -1,5 +1,12 @@
 <script lang="ts">
 	import Card from "./card.svelte"
+	import { goto } from '$app/navigation';
+
+	function goToCardInfo() {
+		goto('/card-info').then(() => {
+			location.reload();
+		});
+	}
 </script>
 <div class = "test"></div><section class = "page-section">
 	<h1>დავალებების გვერდი</h1>
@@ -91,7 +98,9 @@
 		<div>
 			<div class = "task-status task-to-start">დასაწყები</div>
 			<div class = "task-item-wrapper">
-				<Card/>
+				<button on:click={goToCardInfo}>
+					<Card/>
+				</button>
 				<Card/>
 				<Card/>
 				<Card/>
