@@ -2,7 +2,7 @@
 	
 	import MainLogo from "../lib/assets/mainlogo.png"
   	import {createEmployee, getDepartmentList} from "../stores/store";
-
+	import CancelLogo from "../lib/assets/cancel.png"
 	let popoverVisibility: boolean=false;
 
 		function togglePopoverVisibility() {
@@ -39,6 +39,7 @@
 			</button>
 		</div>
 		{#if popoverVisibility}
+			<div class="popover">
 		<form id="popover-content" class="popover-container" method="POST"  on:submit={(event) => {event
       event.preventDefault();
       const form = new FormData(event.currentTarget);
@@ -46,21 +47,26 @@
 
     }}>
 			<h1>თანამშრომლის დამატება</h1>
+			<button class="header-button" on:click={togglePopoverVisibility}>
+				<img src={CancelLogo} class="popover-cancel" alt="closebutton">
+			</button>
 			<div class="popover-content-container">
 				<div class="popover-form-wrapper">
-					<label for="name">სახელი*</label>
+					<b>სახელი*</b>
 					<input class = "popover-input" type="text" id="name" name="name">
 				</div>
 				<div class="popover-form-wrapper">
-					<label for="surname">გვარი*</label>
+					<b>გვარი*</b>
 					<input class = "popover-input" type="text" id="surname" name="surname">
 				</div>
 			</div>
-			<label for ="avatar">ავატარი</label>
-			<input type="file" accept="image/*" id="avatar" name="avatar" />
+			<label for="avatar" class="popover-avatar-wrapper">
+				<div class="avatar-circle">+</div>
+			</label>
+			<input type="file" accept="image/*" id="avatar" name="avatar" class="popover-avatar-input" />
 			<div class ="popover-department-selection">
-				<label for="department">დეპარტამენტი</label>
-				<select class="popover-department-selection" id="department" name="department_id">
+				<b>დეპარტამენტი</b>
+				<select class="popover-department-input" id="department" name="department_id">
           {#await departments then departmentList}
             {#each departmentList as department}
               <option value={department.id}>{department.name}</option>
@@ -73,6 +79,7 @@
 				<button class="button-design purple-button">დაამატე თანამშრომელი</button>
 			</div>
 		</form>
+	</div>
 		{/if}
 	</header>
 </section>
@@ -104,27 +111,33 @@
 			color: white;
 		}
 	}
-	.popover-title{
-		align-self: center;
+	.popover {
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%,-50%);
+		width: auto;
+		height: fit-content;
 	}
+
+	.popover-container {
+		display: flex;
+		position:relative;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background-color: white;
+		gap: 20px;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
+		0 1px 3px rgba(0, 0, 0, 0.08);
+	}
+
 	.button-container {
 		display: flex;
 		margin-left: auto;
 		gap: 20px;
-	}
-	.popover-container{
-		position: fixed;
-		border: 1px solid;
-		left: 50%;
-		top: 30%;
-		transform: translate(-50%,-50%);
-		display: flex;
-		flex-direction: column;
-		background-color: white;
-		border-radius: 10px;
-		gap: 20px;
-		width: 42%;
-		height: 48%;
 	}
 	#popover-content::backdrop {
 		backdrop-filter: blur(5px);
@@ -133,27 +146,42 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		gap: 5px;
 	}
 	.popover-content-container{
 		display: flex;
 		flex-direction: row;
+		justify-content: center;
+		gap: 1.5em;
 		width: 100%;
-		height: 10%;
+
 		&.popover-submit-container{
 			align-items: flex-end;
 		}
 	}
 	.popover-department-selection{
-		width: 50%;
-		height: 10%;
 		display: flex;
 		flex-direction: column;
-		align-items: baseline;
+		justify-content: start;
+		gap: 5px;
+		width: 100%;
 	}
+
+	.popover-department-input{
+		width: 50%;
+		height: 30px;
+		border-radius: 5px;
+		border: 1px solid rgba(0, 0, 0, 0.199);
+		box-sizing: border-box;
+	}
+
 	.popover-input{
-		width: 80%;
-		height: 100%;
-		border-radius: 10px;
+		width: 100%;
+		height: 30px;
+		border-radius: 5px;
+		border: 1px solid rgba(0, 0, 0, 0.199);
+		padding: 10px;
+		box-sizing: border-box;
 	}
 	.button-plus{
 		font-size: 30px;
@@ -162,5 +190,53 @@
 		all: unset;
 		display: inline-block;
 		cursor: pointer;
+	}
+
+	.popover-avatar-wrapper {
+		width: 100%;
+		height: 60px;
+		border: 2px dashed #ccc;
+		border-radius: 0.5rem;
+		padding: 8px;
+		position: relative;
+		cursor: pointer;
+		transition: border-color 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.popover-avatar-wrapper:hover {
+		border-color: #888;
+	}
+
+	.popover-avatar-wrapper .avatar-circle {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		background-color: #f3f3f3;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: #666;
+		transition: background-color 0.2s ease;
+	}
+
+	.popover-avatar-wrapper:hover .avatar-circle {
+		background-color: #e0e0e0;
+	}
+
+	.popover-avatar-input {
+		display: none;
+	}
+	.popover-cancel{
+		position: absolute;
+		inset-inline-end: 10px;
+		inset-block-start: 10px;
+		&:hover{
+			cursor: pointer;
+		}
 	}
 </style>
