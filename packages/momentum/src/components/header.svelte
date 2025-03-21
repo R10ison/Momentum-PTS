@@ -1,8 +1,11 @@
 <script lang="ts">
-	let popoverVisibility: boolean = false;
+	import MainLogo from "../lib/assets/mainlogo.png"
+  import {createEmployee, getDepartmentList} from "../stores/store";
+
+  let popoverVisibility: boolean=false;
 
 	function togglePopoverVisibility() {
-		popoverVisibility = !popoverVisibility;
+		popoverVisibility=!popoverVisibility;
 	}
 
 	import { goto } from '$app/navigation';
@@ -12,39 +15,56 @@
 			location.reload();
 		});
 	}
+
+  $:departments = getDepartmentList();
+
+
 </script>
 <section class="header-section">
 	<header class="header-container">
-	Momentum
+	<img src = {MainLogo} alt="Main Hourglass Logo">
 		<div class="button-container">
 			<button class="button-design" on:click={togglePopoverVisibility}>თანამშრომლის შექმნა</button>
-			<button class="button-design purple-button" on:click={goToTaskCreation}><img src="../lib../assets" alt="A" />შექმენი ახალი დავალება
+			<button class="button-design purple-button" on:click={goToTaskCreation}>
+				<p class="button-plus">+</p> 
+				შექმენი ახალი დავალება
 			</button>
 		</div>
 		{#if popoverVisibility}
-		<div id="popover-content" class = "popover-container">
-			<h1 class="popover-title">თანამშრომლის დამატება</h1>
-			<div class = "popover-content-container">
-				<div class = "popover-form-wrapper">
+		<form id="popover-content" class="popover-container" method="POST"  on:submit={(event) => {event
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      createEmployee(form).then(console.log);
+
+    }}>
+			<h1>თანამშრომლის დამატება</h1>
+			<div class="popover-content-container">
+				<div class="popover-form-wrapper">
 					<label for="name">სახელი*</label>
-					<input type="text" id = "name" class = "popover-input">
+					<input type="text" id="name" name="name">
 				</div>
-				<div class = "popover-form-wrapper">
+				<div class="popover-form-wrapper">
 					<label for="surname">გვარი*</label>
-					<input type="text" id = "surname" class="popover-input">
+					<input type="text" id="surname" name="surname">
 				</div>
 			</div>
-			<label id="avatar-label" for="avatar">ატვირთე ფოტო</label>
-			<input type="file" accept="image/*" id = "avatar"/>
+			<label for ="avatar">ავატარი</label>
+			<input type="file" accept="image/*" id="avatar" name="avatar" />
 			<div class ="popover-department-selection">
 				<label for="department">დეპარტამენტი</label>
-				<select id = "department" class="popover-input"></select>
+				<select class="popover-department-selection" id="department" name="department_id">
+          {#await departments then departmentList}
+            {#each departmentList as department}
+              <option value={department.id}>{department.name}</option>
+            {/each}
+          {/await}
+        </select>
 			</div>
-			<div class = "popover-content-container popover-submit-container">
+			<div class="popover-content-container popover-submit-container">
 				<button class="button-design" on:click={togglePopoverVisibility} > გაუქმება</button>
 				<button class="button-design purple-button">დაამატე თანამშრომელი</button>
 			</div>
-		</div>
+		</form>
 		{/if}
 	</header>
 </section>
@@ -59,6 +79,8 @@
 		margin-top: 20px;
 	}
 	.button-design {
+		gap: 5px;
+		padding-inline: 1rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -69,6 +91,10 @@
 		&:hover {
 			cursor: pointer;
 		}
+		&.purple-button {
+			background-color: purple;
+			color: white;
+		}
 	}
 	.popover-title{
 		align-self: center;
@@ -77,10 +103,6 @@
 		display: flex;
 		margin-left: auto;
 		gap: 20px;
-		.purple-button {
-			background-color: purple;
-			color: white;
-		}
 	}
 	.popover-container{
 		position: fixed;
@@ -125,5 +147,8 @@
 		height: 100%;
 		border-radius: 10px;
 
+	}
+	.button-plus{
+		font-size: 30px;
 	}
 </style>
