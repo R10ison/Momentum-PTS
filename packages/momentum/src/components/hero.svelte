@@ -1,10 +1,23 @@
 <script lang="ts">
 	import TaskCard from "./task-card.svelte";
-	import {getTaskList, getStatusList, getDepartmentList} from "../stores/store";
-	import type { Department } from "../stores/store.types";
+	import {getTaskList, getStatusList, getDepartmentList, getPriorityList, getEmployeeList} from "../stores/store";
+	import type { Department, Employee, Priority } from "../stores/store.types";
 	
+	let selected: string | null = null;
+
+  function toggle(id: string) {
+    selected = selected === id ? null : id;
+  } 
+
 	$:departments = getDepartmentList();
 	$:checkedDepartments = [] as Department[];
+
+	$:priorities = getPriorityList();
+	$:checkedPriorities = [] as Priority[];
+	
+	$:employees = getEmployeeList();
+	$:checkedEmployees = [] as Employee[];
+
   	$:tasks = getTaskList();
   	$:statuses = getStatusList();
 
@@ -25,9 +38,8 @@
 <section class="page-section">
   <nav class="dropdown-button-container">
     <li class="dropdown-parent">
-      <input type="radio" id="departmentCheckbox" class="dropdown-checkbox" name="dropdown-parent-input"/>
+      <input type="checkbox" checked={selected === 'd'} onchange={() => toggle('d')} id="departmentCheckbox" class="dropdown-checkbox"/>
       <label class="dropdown-button" for="departmentCheckbox"> დეპარტამენტი
-        <span class="dropdown-arrow"></span>
       </label>
       <div class="dropdown-content">
 		{#await departments}
@@ -43,59 +55,44 @@
 			{:catch}
 			<p>Error</p> 
 		{/await}
-	
-        <div class="dropdown-button-wrapper">
-          <button class="dropdown-content-button">არჩევა</button>
-        </div>
       </div>
     </li>
     <li class="dropdown-parent">
-      <input type="radio" id="priorityCheckbox" class="dropdown-checkbox" name="dropdown-parent-input" />
+      <input type="checkbox" checked={selected === 'b'} onchange={() => toggle('b')} id="priorityCheckbox" class="dropdown-checkbox"/>
       <label class="dropdown-button" for="priorityCheckbox"> პრიორიტეტი </label>
       <div class="dropdown-content">
-        <div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>დაბალი</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>საშუალო</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>მაღალი</p>
-          </div>
-        </div>
-        <div class="dropdown-button-wrapper">
-          <button class="dropdown-content-button">არჩევა</button>
-        </div>
+        {#await priorities}
+			waiting  
+			{:then prioritiesList}
+			{#each prioritiesList as priority}
+			<label class="dropdown-content-parent">
+				
+				<input type="checkbox" class="dropdown-content-checkbox" bind:group={checkedPriorities} value={priority} onchange={()=>{console.log(checkedPriorities)}}/>
+				<p>{priority.name}</p>
+			</label>
+			{/each}
+			{:catch}
+			<p>Error</p> 
+		{/await}
       </div>
     </li>
     <li class="dropdown-parent">
-      <input type="radio" id="staffCheckbox" class="dropdown-checkbox" name="dropdown-parent-input" />
+      <input type="checkbox" checked={selected === 'c'} onchange={() => toggle('c')} id="staffCheckbox" class="dropdown-checkbox"/>
       <label class="dropdown-button" for="staffCheckbox"> თანამშრომელი </label>
       <div class="dropdown-content">
-        <div>
-          <div class="dropdown-content-parent">
-            <input type="radio" name="radio-item" class="dropdown-content-checkbox" />
-            <img alt="worker picture" />
-            <p>worker 1</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="radio" name="radio-item" class="dropdown-content-checkbox" />
-            <img alt="worker picture" />
-            <p>worker 2</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="radio" name="radio-item" class="dropdown-content-checkbox" />
-            <img alt="worker picture" />
-            <p>worker 3</p>
-          </div>
-        </div>
-        <div class="dropdown-button-wrapper">
-          <button class="dropdown-content-button">არჩევა</button>
-        </div>
+        {#await employees}
+			waiting  
+			{:then employeeList}
+			{#each employeeList as employee}
+			<label class="dropdown-content-parent">
+				
+				<input type="checkbox" class="dropdown-content-checkbox" bind:group={checkedEmployees} value={employee} onchange={()=>{console.log(checkedEmployees)}}/>
+				<p>{employee.name}</p>
+			</label>
+			{/each}
+			{:catch}
+			<p>Error</p> 
+		{/await}
       </div>
     </li>
   </nav>
@@ -108,14 +105,27 @@
         <div class="task-status {getStatusClass(status.id)}">{status.name}</div>
         {#await tasks then taskList}
           {#each taskList as task}
-            {#if task.status.id === status.id && (checkedDepartments.length === 0 || checkedDepartments.some((dep)=>{task.status.id === dep.id}))}
+            {#if task.status.id === status.id && (checkedDepartments.length === 0 || checkedDepartments.some((dep)=>{
+              if(task.department.id === dep.id)
+                return true;
+            }))} 
+			{#if task.status.id === status.id && (checkedPriorities.length === 0 || checkedPriorities.some((pri)=>{
+              if(task.priority.id === pri.id)
+                return true;
+            }))} 
+			{#if task.status.id === status.id && (checkedEmployees.length === 0 || checkedEmployees.some((emp)=>{
+              if(task.employee.id === emp.id)
+                return true;
+            }))} 
               <div>
                 <div class="task-status">{status}</div>
                 <div class="task-item-wrapper">
                   <TaskCard {task} />
                 </div>
               </div>
+			{/if}
             {/if}
+			{/if}
           {/each}
         {/await}
 		</div>
@@ -169,6 +179,8 @@
 
 		margin-top: 10px;
 		display: flex;
+		flex-direction: column;
+		gap: 5px;
 		border: 1px solid purple;
 		width: 600px;
 		min-block-size: 250px;
