@@ -1,7 +1,10 @@
 <script lang="ts">
 	import TaskCard from "./task-card.svelte";
-	import {getTaskList, getStatusList} from "../stores/store";
-
+	import {getTaskList, getStatusList, getDepartmentList} from "../stores/store";
+	import type { Department } from "../stores/store.types";
+	
+	$:departments = getDepartmentList();
+	$:checkedDepartments = [] as Department[];
   	$:tasks = getTaskList();
   	$:statuses = getStatusList();
 
@@ -27,24 +30,20 @@
         <span class="dropdown-arrow"></span>
       </label>
       <div class="dropdown-content">
-        <div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>მარკეტინგის დეპარტამენტი</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>დიზაინის დეპარტამენტი</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>ლოჯისტიკის დეპარტამენტი</p>
-          </div>
-          <div class="dropdown-content-parent">
-            <input type="checkbox" id="" class="dropdown-content-checkbox" />
-            <p>IT დეპარტამენტი</p>
-          </div>
-        </div>
+		{#await departments}
+			waiting  
+			{:then departmentList}
+			{#each departmentList as department}
+			<label class="dropdown-content-parent">
+				
+				<input type="checkbox" class="dropdown-content-checkbox" bind:group={checkedDepartments} value={department} onchange={()=>{console.log(checkedDepartments)}}/>
+				<p>{department.name}</p>
+			</label>
+			{/each}
+			{:catch}
+			<p>Error</p> 
+		{/await}
+	
         <div class="dropdown-button-wrapper">
           <button class="dropdown-content-button">არჩევა</button>
         </div>
@@ -109,7 +108,7 @@
         <div class="task-status {getStatusClass(status.id)}">{status.name}</div>
         {#await tasks then taskList}
           {#each taskList as task}
-            {#if task.status.id === status.id}
+            {#if task.status.id === status.id && (checkedDepartments.length === 0 || checkedDepartments.some((dep)=>{task.status.id === dep.id}))}
               <div>
                 <div class="task-status">{status}</div>
                 <div class="task-item-wrapper">
