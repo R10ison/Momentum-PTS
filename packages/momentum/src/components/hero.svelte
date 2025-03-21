@@ -1,10 +1,20 @@
 <script lang="ts">
-  import TaskCard from "./task-card.svelte";
-  import {getTaskList, getStatusList} from "../stores/store";
+	import TaskCard from "./task-card.svelte";
+	import {getTaskList, getStatusList} from "../stores/store";
 
-  $:tasks = getTaskList();
-  $:statuses = getStatusList();
+  	$:tasks = getTaskList();
+  	$:statuses = getStatusList();
 
+	function getStatusClass(statusId: number): string {
+		const classMap: Record<number, string> = {
+			1: "task-to-start",
+			2: "task-in-progress",
+			3: "task-ready-for-testing",
+			4: "task-finished"
+		};
+
+		return classMap[statusId] || "";
+		}
 </script>
 <section class="page-section">
   <h1>დავალებების გვერდი</h1>
@@ -12,7 +22,7 @@
 <section class="page-section">
   <nav class="dropdown-button-container">
     <li class="dropdown-parent">
-      <input type="checkbox" id="departmentCheckbox" class="dropdown-checkbox" />
+      <input type="radio" id="departmentCheckbox" class="dropdown-checkbox" name="dropdown-parent-input"/>
       <label class="dropdown-button" for="departmentCheckbox"> დეპარტამენტი
         <span class="dropdown-arrow"></span>
       </label>
@@ -41,7 +51,7 @@
       </div>
     </li>
     <li class="dropdown-parent">
-      <input type="checkbox" id="priorityCheckbox" class="dropdown-checkbox" />
+      <input type="radio" id="priorityCheckbox" class="dropdown-checkbox" name="dropdown-parent-input" />
       <label class="dropdown-button" for="priorityCheckbox"> პრიორიტეტი </label>
       <div class="dropdown-content">
         <div>
@@ -64,22 +74,22 @@
       </div>
     </li>
     <li class="dropdown-parent">
-      <input type="checkbox" id="staffCheckbox" class="dropdown-checkbox" />
+      <input type="radio" id="staffCheckbox" class="dropdown-checkbox" name="dropdown-parent-input" />
       <label class="dropdown-button" for="staffCheckbox"> თანამშრომელი </label>
       <div class="dropdown-content">
         <div>
           <div class="dropdown-content-parent">
-            <input type="radio" class="dropdown-content-checkbox" />
+            <input type="radio" name="radio-item" class="dropdown-content-checkbox" />
             <img alt="worker picture" />
             <p>worker 1</p>
           </div>
           <div class="dropdown-content-parent">
-            <input type="radio" class="dropdown-content-checkbox" />
+            <input type="radio" name="radio-item" class="dropdown-content-checkbox" />
             <img alt="worker picture" />
             <p>worker 2</p>
           </div>
           <div class="dropdown-content-parent">
-            <input type="radio" class="dropdown-content-checkbox" />
+            <input type="radio" name="radio-item" class="dropdown-content-checkbox" />
             <img alt="worker picture" />
             <p>worker 3</p>
           </div>
@@ -96,7 +106,7 @@
     {#await statuses then statusList}
       {#each statusList as status}
 	  <div>
-        <div class="task-status task-to-start">{status.name}</div>
+        <div class="task-status {getStatusClass(status.id)}">{status.name}</div>
         {#await tasks then taskList}
           {#each taskList as task}
             {#if task.status.id === status.id}

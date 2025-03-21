@@ -1,19 +1,29 @@
 <script lang="ts">
     import {goto} from '$app/navigation';
     import CommentIcon from "../lib/assets/commenticon.png"
-    import type {Task} from "../stores/tasksstore";
-
-  export let task: Task
+    
+    export let task: Task
 
   function goToCardInfo() {
     goto('/card-info').then(() => {
       location.reload();
     });
   }
+
+    function getStatusClass(statusId: number): string {
+      const classMap: Record<number, string> = {
+        1: "task-to-start",
+        2: "task-in-progress",
+        3: "task-ready-for-testing",
+        4: "task-finished"
+      };
+
+      return classMap[statusId] || "";
+    }
 </script>
-<button class="card-wrapper" on:click={goToCardInfo}>
+<button class="card-wrapper {getStatusClass(task.status.id)}" on:click={goToCardInfo}>
   <div class="card-info-wrapper">
-    <div class="card-importance">{task.priority.name}</div>
+    <div class="card-importance {getStatusClass(task.status.id)}">{task.priority.name}</div>
     <div class="card-department">{task.department.name}</div>
     <div class="card-date">{task.due_date}</div>
   </div>
@@ -31,7 +41,6 @@
 </button>
 <style>
     .card-wrapper{
-        border: 1px solid orange;
         border-radius: 8px;
         display: flex;
         flex-direction: column;
@@ -41,6 +50,19 @@
         background-color: white;
         overflow: hidden;
         gap: 1em;
+
+      &.task-to-start{
+        border: 1px solid orange;
+      }
+      &.task-in-progress{
+        border: 1px solid orangered;
+      }
+      &.task-ready-for-testing{
+        border: 1px solid violet;
+      }
+      &.task-finished{
+        border: 1px solid skyblue;
+      }
         &:hover{
             cursor: pointer;
         }
@@ -61,14 +83,13 @@
     }
     .task-comment{
         margin-left: auto;
-        gap: px;
+        gap: 5px;
         display: flex;
         align-items: center;
     }
     .card-text-wrapper{
         display: flex;
         flex-direction: column;
-        align-items: center;
     }
     .card-importance{
         display: flex;
@@ -77,8 +98,20 @@
         padding: 5px 10px;
         font-size: small;
         height: fit-content;
-        border: 1px solid orangered;
         border-radius: 5px;
+
+      &.task-to-start{
+        border: 1px solid orange;
+      }
+      &.task-in-progress{
+        border: 1px solid orangered;
+      }
+      &.task-ready-for-testing{
+        border: 1px solid violet;
+      }
+      &.task-finished{
+        border: 1px solid skyblue;
+      }
     }
     .card-department{
         display: flex;

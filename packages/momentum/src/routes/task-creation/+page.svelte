@@ -89,11 +89,11 @@
         <label for="deadline">დედლაინი</label>
         <input class="task-form task-double-button" type="date" id="deadline" name="due_date">
       </div>
-    </div>
-  </form>
-  <div class="task-button-and-label-container task-deadline">
+      <div class="task-button-and-label-container task-deadline">
         <button class="button">submit</button>
       </div>
+    </div>
+  </form>
 </section>
 <style>
     .page-section{

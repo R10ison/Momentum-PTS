@@ -1,28 +1,36 @@
 <script lang="ts">
+	
 	import MainLogo from "../lib/assets/mainlogo.png"
-  import {createEmployee, getDepartmentList} from "../stores/store";
+  	import {createEmployee, getDepartmentList} from "../stores/store";
 
-  let popoverVisibility: boolean=false;
+	let popoverVisibility: boolean=false;
 
-	function togglePopoverVisibility() {
-		popoverVisibility=!popoverVisibility;
-	}
+		function togglePopoverVisibility() {
+			popoverVisibility=!popoverVisibility;
+		}
 
-	import { goto } from '$app/navigation';
+		import { goto } from '$app/navigation';
 
-	function goToTaskCreation() {
-		goto('/task-creation').then(() => {
-			location.reload();
-		});
-	}
+		function goToTaskCreation() {
+			goto('/task-creation').then(() => {
+				location.reload();
+			});
+		}
+		function goToCardInfo() {
+    		goto("/").then(() => {
+      	location.reload();
+    	});
+  		}
 
-  $:departments = getDepartmentList();
-
-
+	$:departments = getDepartmentList();
+	
+	
 </script>
 <section class="header-section">
 	<header class="header-container">
-	<img src = {MainLogo} alt="Main Hourglass Logo">
+	<button class="header-button" on:click={() => goToCardInfo()}>
+		<img src = {MainLogo} alt="Main Hourglass Logo">
+	</button>
 		<div class="button-container">
 			<button class="button-design" on:click={togglePopoverVisibility}>თანამშრომლის შექმნა</button>
 			<button class="button-design purple-button" on:click={goToTaskCreation}>
@@ -41,11 +49,11 @@
 			<div class="popover-content-container">
 				<div class="popover-form-wrapper">
 					<label for="name">სახელი*</label>
-					<input type="text" id="name" name="name">
+					<input class = "popover-input" type="text" id="name" name="name">
 				</div>
 				<div class="popover-form-wrapper">
 					<label for="surname">გვარი*</label>
-					<input type="text" id="surname" name="surname">
+					<input class = "popover-input" type="text" id="surname" name="surname">
 				</div>
 			</div>
 			<label for ="avatar">ავატარი</label>
@@ -146,9 +154,13 @@
 		width: 80%;
 		height: 100%;
 		border-radius: 10px;
-
 	}
 	.button-plus{
 		font-size: 30px;
+	}
+	.header-button{
+		all: unset;
+		display: inline-block;
+		cursor: pointer;
 	}
 </style>
