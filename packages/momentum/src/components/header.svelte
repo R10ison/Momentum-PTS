@@ -23,22 +23,22 @@
 		</div>
 		{#if popoverVisibility}
 		<div id="popover-content" class = "popover-container">
-			<h1>თანამშრომლის დამატება</h1>
+			<h1 class="popover-title">თანამშრომლის დამატება</h1>
 			<div class = "popover-content-container">
 				<div class = "popover-form-wrapper">
 					<label for="name">სახელი*</label>
-					<input type="text" id = "name">
+					<input type="text" id = "name" class = "popover-input">
 				</div>
 				<div class = "popover-form-wrapper">
 					<label for="surname">გვარი*</label>
-					<input type="text" id = "surname">
+					<input type="text" id = "surname" class="popover-input">
 				</div>
 			</div>
-			<label for ="avatar">ავატარი</label>
+			<label id="avatar-label" for="avatar">ატვირთე ფოტო</label>
 			<input type="file" accept="image/*" id = "avatar"/>
 			<div class ="popover-department-selection">
 				<label for="department">დეპარტამენტი</label>
-				<select class ="popover-department-selection" id = "department"></select>
+				<select id = "department" class="popover-input"></select>
 			</div>
 			<div class = "popover-content-container popover-submit-container">
 				<button class="button-design" on:click={togglePopoverVisibility} > გაუქმება</button>
@@ -70,6 +70,9 @@
 			cursor: pointer;
 		}
 	}
+	.popover-title{
+		align-self: center;
+	}
 	.button-container {
 		display: flex;
 		margin-left: auto;
@@ -83,15 +86,15 @@
 		position: fixed;
 		border: 1px solid;
 		left: 50%;
-		top: 20%;
+		top: 30%;
 		transform: translate(-50%,-50%);
 		display: flex;
-		align-items: center;
 		flex-direction: column;
 		background-color: white;
 		border-radius: 10px;
 		gap: 20px;
-		width: 1000px;
+		width: 42%;
+		height: 48%;
 	}
 	#popover-content::backdrop {
 		backdrop-filter: blur(5px);
@@ -99,19 +102,28 @@
 	.popover-form-wrapper{
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 	}
 	.popover-content-container{
 		display: flex;
 		flex-direction: row;
-		gap: 30px;
+		width: 100%;
+		height: 10%;
 		&.popover-submit-container{
 			align-items: flex-end;
 		}
 	}
 	.popover-department-selection{
-		align-self: flex-start;
+		width: 50%;
+		height: 10%;
 		display: flex;
 		flex-direction: column;
-		width: 100px;
+		align-items: baseline;
+	}
+	.popover-input{
+		width: 80%;
+		height: 100%;
+		border-radius: 10px;
+
 	}
 </style>

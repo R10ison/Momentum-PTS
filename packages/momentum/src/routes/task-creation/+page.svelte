@@ -12,7 +12,7 @@
             </div>
             <div class ="task-button-and-label-container">
                 <label for = "description">აღწერა</label>
-                <input class = "task-form task-description" type="text" id="description"/>
+                <textarea class="task-form task-description" id="description"></textarea>
             </div>
             <div class="task-creation-double-button-container">
                 <div class="task-button-and-label-container">
@@ -96,7 +96,7 @@
         box-sizing: border-box;
         &.task-description{
             min-height: 150px;
-            resize: vertical;
+            resize: none;
         }
         &.task-double-button{
             width: 250px;

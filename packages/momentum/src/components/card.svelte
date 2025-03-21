@@ -20,7 +20,7 @@
             <p>{task.description}</p>
         </div>
         <div class="card-footer-wrapper">
-            <img src={task.employee.avatar} alt="employee picture" />
+            <img src={task.employee.avatar} alt={task.employee.name} />
             <div class = "task-comment">
                 <img src="../lib../assets" alt="comment picture" />
                 <p>comment number</p>

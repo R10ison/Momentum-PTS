@@ -37,6 +37,42 @@ export interface Task {
 }
 export const tasks = writable<Task[]>([]);
 export const statuses = writable<Set<string>>(new Set());
+export async function createTask(
+	taskData: Omit<Task, 'id' | 'status' | 'priority' | 'department' | 'employee'> & {
+		status_id: number;
+		priority_id: number;
+		employee_id: number;
+	}
+): Promise<Task | null> {
+	try {
+		const res = await fetch(`${ROOT_URL}/tasks`, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${apiKey}`,
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			},
+			body: JSON.stringify({
+				name: taskData.name,
+				description: taskData.description,
+				due_date: taskData.due_date, // Ensure correct RFC 3339 format
+				status_id: taskData.status_id,
+				employee_id: taskData.employee_id,
+				priority_id: taskData.priority_id
+			})
+		});
+
+		if (!res.ok) {
+			console.error('Failed to create task:', res.status, res.statusText);
+			return null;
+		}
+
+		return (await res.json()) as Task; // Return the created task data
+	} catch (error) {
+		console.error('Error creating task:', error);
+		return null;
+	}
+}
 
 export async function fetchTasks() {
 	try {
@@ -65,7 +101,7 @@ export async function fetchTasks() {
 				due_date: '2025-12-31',
 				status: {
 					id: 1,
-					name: 'Todo'
+					name: 'In Progress'
 				},
 				priority: {
 					id: 1,

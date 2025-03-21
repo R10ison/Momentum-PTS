@@ -6,7 +6,8 @@
     const ROOT_URL: string = "https://momentum.redberryinternship.ge/api";
     
     $:tasks = fetchTasks();
-    let statuses = new Set();
+	let statuses = new Set();
+    let selectedWorker = "";
 //for each card return card with status matching the container divs status div text
 
 
@@ -69,31 +70,30 @@
 		</div>
 	</li>
 	<li class="dropdown-parent">
-		<input type="checkbox" id="staffCheckbox" class="dropdown-checkbox" />
-		<label class="dropdown-button" for="staffCheckbox"> თანამშრომელი </label>
-		<div class="dropdown-content">
-			<div>
-				<div class = "dropdown-content-parent">
-					<input type="checkbox" id="" class="dropdown-content-checkbox" />
-					<img alt = "worker picture"/>
-					<p>worker 1</p>
-				</div>
-				<div class = "dropdown-content-parent">
-					<input type="checkbox" id="" class="dropdown-content-checkbox" />
-					<img alt = "worker picture"/>
-					<p>worker 2</p>
-				</div>
-				<div class = "dropdown-content-parent">
-					<input type="checkbox" id="" class="dropdown-content-checkbox" />
-					<img alt = "worker picture"/>
-					<p>worker 3</p>
-				</div>
-			</div>
-			<div class = "dropdown-button-wrapper">
-				<button class = "dropdown-content-button">არჩევა</button>
-			</div>
-		</div>
-	</li>
+	<input type="checkbox" id="staffCheckbox" class="dropdown-checkbox" />
+	<label class="dropdown-button" for="staffCheckbox"> თანამშრომელი </label>
+	<div class="dropdown-content">
+		<div>
+  <label>
+    <input type="radio" bind:group={selectedWorker} value="worker1" class="dropdown-content-checkbox"/>
+    <img src="worker1.jpg" alt="Worker 1" />
+    <p>Worker 1</p>
+  </label>
+  
+  <label>
+    <input type="radio" bind:group={selectedWorker} value="worker2" class="dropdown-content-checkbox"/>
+    <img src="worker2.jpg" alt="Worker 2" />
+    <p>Worker 2</p>
+  </label>
+  
+  <label>
+    <input type="radio" bind:group={selectedWorker} value="worker3" class="dropdown-content-checkbox"/>
+    <img src="worker3.jpg" alt="Worker 3" />
+    <p>Worker 3</p>
+  </label>
+</div>
+	</div>
+</li>
 	</nav>
 </section>
 <section class ="page-section">
@@ -101,7 +101,7 @@
 		{#await tasks}
 			<p>...waiting</p>
 		{:then resolved_list}
-		{#each ["Todo", "პროგრესში", "მზად ტესტირებისთვის", "დასრულებული"] as status}
+		{#each ["Todo", "In Progress", "მზად ტესტირებისთვის", "დასრულებული"] as status}
 			{#each resolved_list as task}
 			{#if task.status.name === status}
 			<div>
@@ -206,7 +206,7 @@
 	}
 	.task-status{
 		color: white;
-		display: flex;
+		display: block;
 		justify-content: center;
 		align-items: center;
 		border-radius: 10px;
@@ -233,5 +233,31 @@
 		flex-direction: column;
 		overflow-y: hidden;
 		max-height: 800px;
+	}
+	
+	.dropdown-content-checkbox{
+		 appearance: none;
+		width: 22px;
+		height: 22px;
+		border: 2px solid purple;
+		border-radius: 6px; 
+		background-color: white; 
+		display: inline-block;
+		position: relative;
+		cursor: pointer;
+		&::before{
+			content: "✓"; /* Checkmark */
+			font-size: 18px;
+			color: purple; /* Purple checkmark */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+			opacity: 0; /* Hidden by default */
+		}
+		&:checked::before {
+    	opacity: 1;
+  }
 	}
 </style>
